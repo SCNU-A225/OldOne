@@ -7,4 +7,7 @@
     <color name="bottom_nav_selected_color">#d81e06</color>
     <color name="black">#000000</color>
     <color name="red">#FF0000</color>
+    <color name="login_activity_text">#96ffffff</color>
+    <color name="white">#ffffff</color>
+    <color name="center_primary">#DEDEDE</color>
 </resources>

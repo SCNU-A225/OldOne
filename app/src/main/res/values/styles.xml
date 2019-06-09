@@ -8,17 +8,24 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="AppTheme.Main" parent="AppTheme"></style>
 
     <style name="HomeTabStyle" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">15sp</item>
     </style>
+
+    <style name="EditScreenTextInputLayoutStyle" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorControlNormal">@color/login_activity_text</item>
+        <item name="colorControlActivated">@color/login_activity_text</item>
+        <item name="colorControlHighlight">@color/login_activity_text</item>
+        <item name="colorAccent">@color/login_activity_text</item>
+        <item name="android:textColorHint">@color/login_activity_text</item>
+    </style>
+
+    <style name="LoginCheckBox" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">#96ffffff</item>
+        <item name="colorControlActivated">#96ffffff</item>
+    </style>
+
 
 </resources>

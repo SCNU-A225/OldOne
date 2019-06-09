@@ -18,14 +18,30 @@ import java.util.List;
 /**
  * 主活动
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
     private ViewPager viewPager;
     private BottomBarLayout bottomBarLayout;
     private List<Fragment> fragmentList;
 
-    private void initView(){
+    protected void initView(){
         viewPager = findViewById(R.id.main_view_pager);
         bottomBarLayout = findViewById(R.id.bottom_bar_layout);
+    }
+
+    @Override
+    protected void initData() {
+        initFragmentList();
+        initTab();
+    }
+
+    @Override
+    protected void initListener() {
+
+    }
+
+    @Override
+    protected void initContentView() {
+        setContentView(R.layout.activity_main);
     }
 
     private void initFragmentList(){
@@ -38,14 +54,5 @@ public class MainActivity extends AppCompatActivity {
     private void initTab(){
         viewPager.setAdapter(new MainTabAdapter(getSupportFragmentManager(),fragmentList));
         bottomBarLayout.setViewPager(viewPager);
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        initView();
-        initFragmentList();
-        initTab();
     }
 }

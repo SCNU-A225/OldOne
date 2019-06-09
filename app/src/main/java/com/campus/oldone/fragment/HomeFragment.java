@@ -8,7 +8,6 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TableLayout;
 
 import com.campus.oldone.R;
 import com.campus.oldone.adapter.HomeTabAdapter;
@@ -17,7 +16,6 @@ import com.campus.oldone.constant.Constant;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.weyye.library.colortrackview.ColorTrackTabLayout;
 
 /**
  * 主页Fragment

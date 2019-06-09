@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:stv="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:fitsSystemWindows="true"
+        android:id="@+id/center_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+    </android.support.v7.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingTop="20dp">
+
+            <com.allen.library.SuperTextView
+                android:id="@+id/center_user"
+                stv:sDividerLineType="both"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                stv:sLeftIconRes="@drawable/img_test"
+                stv:sLeftTextString="帐号管理" />
+
+            <com.allen.library.SuperTextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                stv:sLeftTextString="修改密码"
+                stv:sDividerLineColor="@color/black"
+                stv:sRightIconRes="@drawable/arrow_right_red" />
+
+            <com.allen.library.SuperTextView
+                android:layout_width="match_parent"
+                stv:sLeftTextString="账号与安全"
+                stv:sRightTextString="已保护"
+                stv:sDividerLineColor="@color/black"
+                stv:sRightIconRes="@drawable/arrow_right_red"
+                android:layout_height="50dp" />
+
+            <com.allen.library.SuperTextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                stv:sDividerLineType="bottom"
+                stv:sLeftTextString="设置中心"
+                stv:sDividerLineColor="@color/black"
+                stv:sRightIconRes="@drawable/arrow_right_red" />
+
+
+            <com.allen.library.SuperTextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="50dp"
+                stv:sDividerLineType="both"
+                stv:sLeftTextString="意见反馈"
+                stv:sDividerLineColor="@color/black"
+                stv:sRightIconRes="@drawable/arrow_right_red" />
+
+            <com.allen.library.SuperTextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                stv:sDividerLineType="both"
+                stv:sLeftTextString="关于微博"
+                stv:sRightIconRes="@drawable/arrow_right_red" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
