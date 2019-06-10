@@ -5,4 +5,11 @@
         <item>石牌校区</item>
         <item>大学城校区</item>
     </string-array>
+    <string-array name="goods_types">
+        "图书","数码","体育器材","其他"
+        <item>图书</item>
+        <item>数码</item>
+        <item>体育器材</item>
+        <item>其他</item>
+    </string-array>
 </resources>

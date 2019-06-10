@@ -1,6 +1,7 @@
 package com.campus.oldone.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -8,8 +9,10 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.campus.oldone.R;
+import com.campus.oldone.activity.ReleaseActivity;
 import com.campus.oldone.adapter.HomeTabAdapter;
 import com.campus.oldone.constant.Constant;
 
@@ -24,6 +27,7 @@ public class HomeFragment extends Fragment {
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private List<Fragment> fragmentList = new ArrayList<>();
+    private Button release;
 
 
     public HomeFragment() {
@@ -37,7 +41,7 @@ public class HomeFragment extends Fragment {
     private void initView(View view){
         viewPager = view.findViewById(R.id.home_view_pager);
         tabLayout = view.findViewById(R.id.home_tab);
-
+        release = view.findViewById(R.id.release);
     }
 
     private void initFragmentList(){
@@ -58,7 +62,18 @@ public class HomeFragment extends Fragment {
         initView(view);
         initFragmentList();
         initTab();
+        initListener();
         return view;
+    }
+
+    public void initListener(){
+        release.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), ReleaseActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 }
