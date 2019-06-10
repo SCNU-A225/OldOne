@@ -5,12 +5,14 @@ public class Goods {
     private String title;
     private String content;
     private Double price;
+    private Boolean isSale;
 
     public Goods(int imageId, String title, String content, Double price) {
         this.imageId = imageId;
         this.title = title;
         this.content = content;
         this.price = price;
+        this.isSale = false;
     }
 
     public int getImageId() {

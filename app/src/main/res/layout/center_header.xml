@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="180dp"
+    android:padding="10dp"
+    android:background="?attr/colorPrimary"
+    android:orientation="vertical"
+    >
+
+    <!--头部用户信息-->
+    <LinearLayout
+        android:id="@+id/ll_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        >
+
+        <!--头像-->
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/fragment_center_headimage"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/center_menu_username"/>
+
+        <!--用户名-->
+        <TextView
+            android:id="@+id/fragment_center_Hname"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="JensonHsu"
+            android:textColor="@color/white"
+            android:textSize="16.0sp"/>
+    </LinearLayout>
+
+    <!--头部 已发布、已出手、未出手-->
+    <LinearLayout
+        android:id="@+id/ll_count"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="23.0dip"
+        android:layout_marginTop="18.0dip"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <!--已发布-->
+        <LinearLayout
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/fragment_center_releaseNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.9"
+                android:text="0"
+                android:textColor="@color/white"
+                android:textSize="16.0sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:alpha="0.5"
+                android:text="已发布"
+                android:textColor="@color/white"
+                android:textSize="12.0sp"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="0.5dip"
+            android:layout_height="38.0dip"
+            android:background="@color/colorPrimary"/>
+
+        <LinearLayout
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/fragment_center_saleNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.9"
+                android:text="0"
+                android:textColor="@color/white"
+                android:textSize="16.0sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:alpha="0.5"
+                android:text="已出手"
+                android:textColor="@color/white"
+                android:textSize="12.0sp"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="0.5dip"
+            android:layout_height="38.0dip"
+            android:background="@color/colorPrimary"/>
+
+        <LinearLayout
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/fragment_center_unsaleNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.9"
+                android:text="0"
+                android:textColor="@color/white"
+                android:textSize="16.0sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:alpha="0.5"
+                android:text="未出手"
+                android:textColor="@color/white"
+                android:textSize="12.0sp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
