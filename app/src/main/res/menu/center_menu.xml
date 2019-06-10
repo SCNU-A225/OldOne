@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/center_menu_name"
+            android:title="昵称"
+            android:icon="@drawable/center_menu_name"/>
+        <item
+            android:id="@+id/center_menu_email"
+            android:title="邮箱"
+            android:icon="@drawable/center_menu_email"/>
+        <item
+            android:id="@+id/center_menu_phone"
+            android:title="电话"
+            android:icon="@drawable/center_menu_phone"/>
+        <item
+            android:id="@+id/center_menu_area"
+            android:title="校区"
+            android:icon="@drawable/center_menu_area"/>
+        <item
+            android:id="@+id/center_menu_username"
+            android:title="账号"
+            android:icon="@drawable/center_menu_username"/>
+        <item
+            android:id="@+id/center_menu_password"
+            android:title="修改密码"
+            android:icon="@drawable/center_menu_password"/>
+    </group>
+</menu>
