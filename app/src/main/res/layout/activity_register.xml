@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:clickable="true"
+    android:focusableInTouchMode="true"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:focusableInTouchMode="true">
+    android:layout_height="match_parent">
 
     <FrameLayout
         android:layout_width="wrap_content"
@@ -37,6 +39,7 @@
             android:textColor="#ffffff"
             android:textSize="32sp" />
         <LinearLayout
+            android:focusableInTouchMode="true"
             android:orientation="vertical"
             android:layout_marginTop="50dp"
             android:layout_marginLeft="32dp"
@@ -124,19 +127,43 @@
                     android:entries="@array/campus_types" />
             </LinearLayout>
 
-            <Button
-                android:id="@+id/register_sign_up"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/buttonshapewhitebg"
-                android:fontFamily="@font/calibri"
-                android:text="@string/sign_up_now"
-                android:textAllCaps="false"
-                android:textStyle="bold"
-                android:textColor="#96ffffff"
-                android:textSize="24sp" />
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/register_sign_up"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/buttonshapewhitebg"
+                    android:fontFamily="@font/calibri"
+                    android:text="@string/sign_up"
+                    android:textAllCaps="false"
+                    android:textColor="#96ffffff"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/register_sign_in"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:background="@drawable/buttonshapewhitebg"
+                    android:fontFamily="@font/calibri"
+                    android:text="@string/sign_in"
+                    android:textAllCaps="false"
+                    android:textColor="#96ffffff"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+
+
 
         </LinearLayout>
 
