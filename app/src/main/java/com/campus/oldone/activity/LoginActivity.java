@@ -1,20 +1,28 @@
 package com.campus.oldone.activity;
 
+import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.campus.oldone.R;
+import com.campus.oldone.constant.Constant;
+import com.campus.oldone.utils.HttpUtil;
+import com.campus.oldone.utils.Tools;
 
+import java.net.MalformedURLException;
 import java.util.Calendar;
+import java.net.URL;
 
 public class LoginActivity extends BaseActivity {
     private static final String TAG = "mydebug:LA";
@@ -24,6 +32,11 @@ public class LoginActivity extends BaseActivity {
     private Button signInButton;
     private Button signUpButton;
     private CheckBox rememberMe;
+    private EditText accountEditText;
+    private EditText passwordEditText;
+
+    private SharedPreferences pref;
+    private SharedPreferences.Editor editor;
 
     @Override
     protected void initView() {
@@ -32,15 +45,37 @@ public class LoginActivity extends BaseActivity {
         signInButton = findViewById(R.id.login_sign_in);
         signUpButton = findViewById(R.id.login_sign_up);
         rememberMe = findViewById(R.id.login_remember);
+        accountEditText = findViewById(R.id.login_account);
+        passwordEditText = findViewById(R.id.login_password);
     }
 
     @Override
     protected void initData() {
         initUI();
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
+        editor = pref.edit();
+        if(pref.getBoolean("remember",false)){
+            accountEditText.setText(pref.getString("account",""));
+            passwordEditText.setText(pref.getString("password",""));
+            rememberMe.setChecked(true);
+        }
     }
 
     @Override
     protected void initListener() {
+        class FocusListener implements View.OnFocusChangeListener{
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    im.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                }
+            }
+        }
+        accountEditText.setOnFocusChangeListener(new FocusListener());
+        passwordEditText.setOnFocusChangeListener(new FocusListener());
+
+
         //注册
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,7 +89,15 @@ public class LoginActivity extends BaseActivity {
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                String account =  accountEditText.getText().toString();
+                String password = passwordEditText.getText().toString();
+                if (!account.isEmpty() && !password.isEmpty()){
+                    password = Tools.md5(password);
+                    String url = String.format("%slogin?account=%s&password=%s",Constant.SERVER_URL,account,password);
+                    new LoginTask().execute(url);
+                } else {
+                    Toast.makeText(LoginActivity.this,"请完整填写信息！",Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -74,12 +117,40 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
     }
 
-    @Override
-    protected void init() {
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        initContentView();
-        initView();
-        initData();
+    class LoginTask extends AsyncTask<String,Integer,Boolean>{
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            try {
+                URL url = new URL(strings[0]);
+                Log.d(TAG, "doInBackground: "+url);
+                String result = HttpUtil.sendGet(url);
+                Log.d(TAG, result);
+                return (result!=null && result.equals(Constant.STATUS_OK));
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            if(result){
+                Toast.makeText(LoginActivity.this,"登录成功！",Toast.LENGTH_SHORT).show();
+                if(rememberMe.isChecked()){
+                    editor.putBoolean("remember",true);
+                    editor.putString("account",accountEditText.getText().toString());
+                    editor.putString("password",passwordEditText.getText().toString());
+                } else {
+                    editor.clear();
+                }
+                editor.apply();
+                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(LoginActivity.this,"登录失败！",Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }
