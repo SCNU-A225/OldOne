@@ -34,7 +34,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder> 
         Goods goods = goodsList.get(i);
         viewHolder.goodsImage.setImageResource(goods.getImageId());
         viewHolder.goodsTitle.setText(goods.getTitle());
-        viewHolder.goodsContent.setText(goods.getContent());
+        viewHolder.goodsLocation.setText(goods.getLocation());
         viewHolder.goodsPrice.setText(goods.getPrice()+"");
     }
 
@@ -46,15 +46,15 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder> 
     static class ViewHolder extends RecyclerView.ViewHolder{
         ImageView goodsImage;
         TextView goodsTitle;
-        TextView goodsContent;
         TextView goodsPrice;
+        TextView goodsLocation;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             goodsImage = itemView.findViewById(R.id.item_goods_img);
             goodsTitle = itemView.findViewById(R.id.item_goods_title);
-            goodsContent = itemView.findViewById(R.id.item_goods_content);
             goodsPrice = itemView.findViewById(R.id.item_goods_price);
+            goodsLocation = itemView.findViewById(R.id.item_goods_location);
         }
     }
 }

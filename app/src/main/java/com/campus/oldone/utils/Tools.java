@@ -1,8 +1,15 @@
 package com.campus.oldone.utils;
 
+import com.google.gson.Gson;
+
 import java.security.MessageDigest;
+import java.util.Random;
 
 public class Tools {
+    public static Random random = new Random();
+    public static Gson gson = new Gson();
+
+
     /**
      * md5加密
      * @param originString 原字符串

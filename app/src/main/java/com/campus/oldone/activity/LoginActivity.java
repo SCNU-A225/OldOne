@@ -17,18 +17,26 @@ import android.widget.Toast;
 
 import com.campus.oldone.R;
 import com.campus.oldone.constant.Constant;
+import com.campus.oldone.model.User;
 import com.campus.oldone.utils.HttpUtil;
 import com.campus.oldone.utils.Tools;
+import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Calendar;
 import java.net.URL;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class LoginActivity extends BaseActivity {
     private static final String TAG = "mydebug:LA";
 
     private ImageView background;
-    private TextView greeting;
     private Button signInButton;
     private Button signUpButton;
     private CheckBox rememberMe;
@@ -41,7 +49,6 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void initView() {
         background = findViewById(R.id.login_background);
-        greeting = findViewById(R.id.login_greeting_text);
         signInButton = findViewById(R.id.login_sign_in);
         signUpButton = findViewById(R.id.login_sign_up);
         rememberMe = findViewById(R.id.login_remember);
@@ -93,8 +100,56 @@ public class LoginActivity extends BaseActivity {
                 String password = passwordEditText.getText().toString();
                 if (!account.isEmpty() && !password.isEmpty()){
                     password = Tools.md5(password);
-                    String url = String.format("%slogin?account=%s&password=%s",Constant.SERVER_URL,account,password);
-                    new LoginTask().execute(url);
+                    //String url = String.format("%slogin?account=%s&password=%s",Constant.SERVER_URL,account,password);
+                    //new LoginTask().execute(url);
+                    String url = Constant.SERVER_URL+"login";
+                    RequestBody requestBody = new FormBody.Builder()
+                            .add("account",account)
+                            .add("password",password)
+                            .build();
+                    HttpUtil.sendOkHttpPostRequest(url,requestBody, new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(LoginActivity.this,"网络错误",Toast.LENGTH_SHORT);
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onResponse(Call call, final Response response) throws IOException {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        String json = response.body().string();
+                                        Log.d(TAG, json);
+                                        if(response.header("login_result",Constant.STATUS_FAILED).equals(Constant.STATUS_OK)){
+                                            if(rememberMe.isChecked()){
+                                                editor.putBoolean("remember",true);
+                                                editor.putString("account",accountEditText.getText().toString());
+                                                editor.putString("password",passwordEditText.getText().toString());
+                                            } else {
+                                                editor.clear();
+                                            }
+                                            editor.apply();
+                                            User user = Tools.gson.fromJson(json, User.class);
+                                            Log.d(TAG, user.toString());
+                                            Toast.makeText(LoginActivity.this,"登录成功！",Toast.LENGTH_SHORT).show();
+                                            Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                                            startActivity(intent);
+                                        } else {
+                                            Toast.makeText(LoginActivity.this,"登录失败！",Toast.LENGTH_SHORT).show();
+                                        }
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                        }
+                    });
                 } else {
                     Toast.makeText(LoginActivity.this,"请完整填写信息！",Toast.LENGTH_SHORT).show();
                 }
