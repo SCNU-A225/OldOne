@@ -1,6 +1,7 @@
 package com.campus.oldone.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import android.widget.Button;
 
 import com.bumptech.glide.Glide;
 import com.campus.oldone.R;
+import com.campus.oldone.activity.ReleaseActivity;
 import com.campus.oldone.adapter.HomeTabAdapter;
 import com.campus.oldone.constant.Constant;
 import com.campus.oldone.model.Goods;
@@ -74,9 +76,12 @@ public class HomeFragment extends Fragment {
         releaseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Goods goods = new Goods(R.drawable.img_test,"测试","内容测试",99.0,"位置","18613189882","1197749258@qq.com");
-                Gson gson = new Gson();
-                Log.d(TAG, gson.toJson(goods));
+//                Goods goods = new Goods(R.drawable.img_test,"测试","内容测试",99.0,"位置","18613189882","1197749258@qq.com");
+//                Gson gson = new Gson();
+//                Log.d(TAG, gson.toJson(goods));
+
+                Intent intent = new Intent(getContext(), ReleaseActivity.class);
+                startActivity(intent);
 
 
 //                File file = new File();
