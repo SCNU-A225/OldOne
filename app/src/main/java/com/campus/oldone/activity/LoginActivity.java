@@ -19,11 +19,13 @@ import com.campus.oldone.R;
 import com.campus.oldone.constant.Constant;
 import com.campus.oldone.model.User;
 import com.campus.oldone.utils.HttpUtil;
+import com.campus.oldone.utils.PreferencesUtil;
 import com.campus.oldone.utils.Tools;
 import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.nio.charset.Charset;
 import java.util.Calendar;
 import java.net.URL;
 
@@ -66,6 +68,7 @@ public class LoginActivity extends BaseActivity {
             passwordEditText.setText(pref.getString("password",""));
             rememberMe.setChecked(true);
         }
+        PreferencesUtil.clearUserInfo(this);
     }
 
     @Override
@@ -100,8 +103,6 @@ public class LoginActivity extends BaseActivity {
                 String password = passwordEditText.getText().toString();
                 if (!account.isEmpty() && !password.isEmpty()){
                     password = Tools.md5(password);
-                    //String url = String.format("%slogin?account=%s&password=%s",Constant.SERVER_URL,account,password);
-                    //new LoginTask().execute(url);
                     String url = Constant.SERVER_URL+"login";
                     RequestBody requestBody = new FormBody.Builder()
                             .add("account",account)
@@ -124,8 +125,6 @@ public class LoginActivity extends BaseActivity {
                                 @Override
                                 public void run() {
                                     try {
-                                        String json = response.body().string();
-                                        Log.d(TAG, json);
                                         if(response.header("login_result",Constant.STATUS_FAILED).equals(Constant.STATUS_OK)){
                                             if(rememberMe.isChecked()){
                                                 editor.putBoolean("remember",true);
@@ -135,8 +134,10 @@ public class LoginActivity extends BaseActivity {
                                                 editor.clear();
                                             }
                                             editor.apply();
+                                            String json = response.body().string();
                                             User user = Tools.gson.fromJson(json, User.class);
-                                            Log.d(TAG, user.toString());
+                                            PreferencesUtil.saveUserInfo(LoginActivity.this,user);
+                                            
                                             Toast.makeText(LoginActivity.this,"登录成功！",Toast.LENGTH_SHORT).show();
                                             Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                                             startActivity(intent);
@@ -170,42 +171,5 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void initContentView() {
         setContentView(R.layout.activity_login);
-    }
-
-    class LoginTask extends AsyncTask<String,Integer,Boolean>{
-
-        @Override
-        protected Boolean doInBackground(String... strings) {
-            try {
-                URL url = new URL(strings[0]);
-                Log.d(TAG, "doInBackground: "+url);
-                String result = HttpUtil.sendGet(url);
-                Log.d(TAG, result);
-                return (result!=null && result.equals(Constant.STATUS_OK));
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-            return false;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean result) {
-            super.onPostExecute(result);
-            if(result){
-                Toast.makeText(LoginActivity.this,"登录成功！",Toast.LENGTH_SHORT).show();
-                if(rememberMe.isChecked()){
-                    editor.putBoolean("remember",true);
-                    editor.putString("account",accountEditText.getText().toString());
-                    editor.putString("password",passwordEditText.getText().toString());
-                } else {
-                    editor.clear();
-                }
-                editor.apply();
-                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                startActivity(intent);
-            } else {
-                Toast.makeText(LoginActivity.this,"登录失败！",Toast.LENGTH_SHORT).show();
-            }
-        }
     }
 }
