@@ -16,7 +16,8 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/AppTheme">
         <activity android:name=".activity.CenterActivity">
-
+        </activity>
+        <activity android:name=".activity.ChangeActivity">
         </activity>
         <activity android:name=".activity.RegisterActivity"
             android:theme="@style/AppTheme.Main">
