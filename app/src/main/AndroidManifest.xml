@@ -19,7 +19,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.ShareGoodsActivity"></activity>
+        <activity android:name=".activity.ReleasedGoodsActivity"></activity>
+        <activity android:name=".activity.ShareGoodsActivity" />
         <activity android:name=".activity.GetPermissionActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -47,7 +48,7 @@
         <activity
             android:name=".activity.LoginActivity"
             android:theme="@style/AppTheme.Main" />
-        <activity android:name=".activity.MainActivity"></activity>
+        <activity android:name=".activity.MainActivity" />
     </application>
 
 </manifest>
