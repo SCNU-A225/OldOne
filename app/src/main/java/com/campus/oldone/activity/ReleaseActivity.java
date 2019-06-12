@@ -1,8 +1,13 @@
 package com.campus.oldone.activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -12,6 +17,7 @@ import android.widget.GridView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.campus.oldone.R;
 import com.campus.oldone.adapter.ReleaseImageAdapter;
@@ -71,16 +77,12 @@ public class ReleaseActivity extends BaseActivity {
         btn_select.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Matisse.from(ReleaseActivity.this)
-                        .choose(MimeType.allOf())
-                        .countable(true)
-                        .maxSelectable(9)
-                        .capture(true)
-                        .captureStrategy(new CaptureStrategy(true,"com.compus.oldone.fileprovider"))
-                        .imageEngine(new GlideEngine())
-                        .theme(R.style.Matisse_Dracula)
-                        .forResult(REQUEST_CODE_CHOOSE);
-                btn_select.setText("重新选择");
+                //获得读取内存权限
+                if(ContextCompat.checkSelfPermission(ReleaseActivity.this,Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
+                    ActivityCompat.requestPermissions(ReleaseActivity.this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},1);
+                }else {
+                    openAlbum();
+                }
             }
         });
 
@@ -103,5 +105,30 @@ public class ReleaseActivity extends BaseActivity {
         }
     }
 
+    private void openAlbum(){
+        Matisse.from(ReleaseActivity.this)
+                .choose(MimeType.allOf())
+                .countable(true)
+                .maxSelectable(9)
+                .capture(true)
+                .captureStrategy(new CaptureStrategy(true,"com.compus.oldone.fileprovider"))
+                .imageEngine(new GlideEngine())
+                .theme(R.style.Matisse_Dracula)
+                .forResult(REQUEST_CODE_CHOOSE);
+        btn_select.setText("重新选择");
+    }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode){
+            case 1:
+                if (grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    openAlbum();
+                }else {
+                    Toast.makeText(ReleaseActivity.this, "请授权读取内存权限", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            default:
+        }
+    }
 }
