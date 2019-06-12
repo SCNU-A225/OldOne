@@ -20,7 +20,7 @@
             android:id="@+id/release_confirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="发布"
+            android:text="@string/publish"
             android:textColor="@color/white"
             android:background="@color/colorPrimary"
             android:layout_alignParentRight="true"/>
@@ -64,6 +64,7 @@
             android:layout_height="wrap_content" />
         <EditText
             android:id="@+id/release_email"
+            android:inputType="textEmailAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
@@ -76,6 +77,7 @@
             android:layout_height="wrap_content" />
         <EditText
             android:id="@+id/release_phone"
+            android:inputType="phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>

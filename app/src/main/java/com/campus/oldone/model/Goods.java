@@ -1,9 +1,10 @@
 package com.campus.oldone.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Goods {
+public class Goods implements Serializable {
     private int imageId;
     private String title;
     private String content;
@@ -26,8 +27,6 @@ public class Goods {
         this.email = email;
         this.sold = 0;
         images = new ArrayList<>();
-        images.add("FFFE");
-        images.add("WWWWW");
     }
 
     public int getImageId() {
