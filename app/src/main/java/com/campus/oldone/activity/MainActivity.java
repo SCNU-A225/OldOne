@@ -55,7 +55,7 @@ public class MainActivity extends BaseActivity {
     private void initFragmentList(){
         fragmentList = new ArrayList<>();
         fragmentList.add(new HomeFragment());
-        fragmentList.add(new MessageFragment());
+//        fragmentList.add(new MessageFragment());
         fragmentList.add(new CenterFragment());
     }
 
