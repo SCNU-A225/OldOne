@@ -24,6 +24,7 @@ import com.campus.oldone.model.User;
  * A simple {@link Fragment} subclass.
  */
 public class CenterFragment extends Fragment {
+    private static final String TAG = "mydebug:CF";
     private Toolbar toolbar;
 
     public CenterFragment() {
@@ -36,14 +37,18 @@ public class CenterFragment extends Fragment {
 
     public void initListener(View view) {
         NavigationView navigationView = view.findViewById(R.id.center_nav_view);
-        navigationView.setCheckedItem(R.id.center_nav_view);
+        //navigationView.setCheckedItem(R.id.center_nav_view);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                Log.d(TAG, "onNavigationItemSelected: start");
                 menuItem.setChecked(true);
                 Intent intent = new Intent(getActivity(), ChangeActivity.class);
-                intent.putExtra("menuItemID",getString(menuItem.getItemId()));
-                Log.d("ChangeActivity2", getString(menuItem.getItemId()));
+                intent.putExtra("menuItemID",menuItem.getItemId());
+                Log.d(TAG, getString(menuItem.getItemId()));
+                //intent.putExtra("menuItemID",getString(menuItem.getItemId()));
+                //Log.d("ChangeActivity2", getString(menuItem.getItemId()));
+
                 startActivity(intent);
                 return true;
             }

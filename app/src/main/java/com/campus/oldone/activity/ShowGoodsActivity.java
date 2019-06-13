@@ -1,15 +1,21 @@
 package com.campus.oldone.activity;
 
+import android.app.AlertDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.allen.library.SuperTextView;
 import com.campus.oldone.R;
 import com.campus.oldone.adapter.GlideImageAdapter;
+import com.campus.oldone.model.Goods;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -19,15 +25,15 @@ import java.util.List;
 
 public class ShowGoodsActivity extends BaseActivity{
 
-    private List<String> images;
+    private List<String> images = new ArrayList<>();
     private Banner banner;
-    private TextView price;
-    private TextView title;
-    private TextView location;
+    private SuperTextView price;
+    private SuperTextView title;
+    private SuperTextView location;
+    private SuperTextView content;
+    private SuperTextView phone;
+    private SuperTextView email;
     private Button contact;
-    private TextView content;
-    private TextView phone;
-    private TextView email;
     private Button share;
 
     @Override
@@ -46,18 +52,20 @@ public class ShowGoodsActivity extends BaseActivity{
         phone = findViewById(R.id.showgoods_phone);
         email = findViewById(R.id.showgoods_email);
         share = findViewById(R.id.showgoods_share);
-        images = new ArrayList<>();
-        images.add("http://img.zcool.cn/community/0166c756e1427432f875520f7cc838.jpg");
-        images.add("http://img.zcool.cn/community/018fdb56e1428632f875520f7b67cb.jpg");
-        images.add("http://img.zcool.cn/community/01c8dc56e1428e6ac72531cbaa5f2c.jpg");
-        images.add("http://img.zcool.cn/community/01fda356640b706ac725b2c8b99b08.jpg");
-        images.add("http://img.zcool.cn/community/01fd2756e142716ac72531cbf8bbbf.jpg");
-        images.add("http://img.zcool.cn/community/0114a856640b6d32f87545731c076a.jpg");
-
     }
 
     @Override
     protected void initData() {
+        Intent intent = getIntent();
+        Goods goods = (Goods) intent.getSerializableExtra("goods");
+        title.setLeftString(title.getLeftString()+goods.getTitle());
+        price.setLeftString(price.getLeftString()+goods.getPrice()+"元");
+        location.setLeftString(location.getLeftString()+goods.getLocation());
+        phone.setLeftString(goods.getPhone());
+        email.setLeftString(goods.getEmail());
+        content.setLeftString(goods.getContent());
+        images = goods.getImages();
+
         banner.setImageLoader(new GlideImageAdapter());
         banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
         banner.setImages(images);
@@ -79,7 +87,7 @@ public class ShowGoodsActivity extends BaseActivity{
         contact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri smsToUri = Uri.parse("smsto:"+phone.getText().toString());
+                Uri smsToUri = Uri.parse("smsto:"+phone.getLeftString());
                 Intent intent = new Intent(Intent.ACTION_SENDTO,smsToUri);
                 startActivity(intent);
             }
@@ -90,9 +98,73 @@ public class ShowGoodsActivity extends BaseActivity{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ShowGoodsActivity.this,ShareGoodsActivity.class);
-                String goodsContent = content.getText().toString();
+                String goodsContent = content.getLeftString();
                 intent.putExtra("goodsContent",goodsContent);
                 startActivity(intent);
+            }
+        });
+
+        phone.setOnSuperTextViewClickListener(new SuperTextView.OnSuperTextViewClickListener() {
+            @Override
+            public void onClickListener(SuperTextView superTextView) {
+                final String[] items = new String[]{"复制到粘贴板", "电话联系"};
+                AlertDialog alertDialog = new AlertDialog.Builder(ShowGoodsActivity.this)
+                        .setTitle("请选择操作")
+                        .setIcon(R.mipmap.ic_launcher)
+                        .setItems(items, new DialogInterface.OnClickListener() {//添加列表
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                switch (i){
+                                    case 0:
+                                        ClipboardManager cmb = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                                        ClipData clipData = ClipData.newPlainText(null, phone.getLeftString());
+                                        cmb.setPrimaryClip(clipData);
+                                        break;
+                                    case 1:
+                                        Uri phoneCallUri = Uri.parse("tel:" + phone.getLeftString());
+                                        Intent intent = new Intent(Intent.ACTION_DIAL,phoneCallUri);
+                                        startActivity(intent);
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+                        })
+                        .create();
+                alertDialog.show();
+            }
+        });
+
+        email.setOnSuperTextViewClickListener(new SuperTextView.OnSuperTextViewClickListener() {
+            @Override
+            public void onClickListener(SuperTextView superTextView) {
+                final String[] items = new String[]{"复制到粘贴板", "发送邮件"};
+                AlertDialog alertDialog = new AlertDialog.Builder(ShowGoodsActivity.this)
+                        .setTitle("请选择操作")
+                        .setIcon(R.mipmap.ic_launcher)
+                        .setItems(items, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                switch (i){
+                                    case 0:
+                                        ClipboardManager cmb = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                                        ClipData clipData = ClipData.newPlainText(null, phone.getLeftString());
+                                        cmb.setPrimaryClip(clipData);
+                                        break;
+                                    case 1:
+                                        Intent data=new Intent(Intent.ACTION_SENDTO);
+                                        data.setData(Uri.parse("mailto:"+email.getLeftString()));
+                                        data.putExtra(Intent.EXTRA_SUBJECT, "这是标题");
+                                        data.putExtra(Intent.EXTRA_TEXT, "这是内容");
+                                        startActivity(data);
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+                        })
+                        .create();
+                alertDialog.show();
             }
         });
     }

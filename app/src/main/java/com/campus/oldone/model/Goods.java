@@ -1,14 +1,16 @@
 package com.campus.oldone.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Goods {
+public class Goods implements Serializable {
     private int imageId;
     private String title;
     private String content;
     private Double price;
     private String location;
+    private String type;
     private String phone;
     private String email;
     private int sold;
@@ -25,8 +27,6 @@ public class Goods {
         this.email = email;
         this.sold = 0;
         images = new ArrayList<>();
-        images.add("FFFE");
-        images.add("WWWWW");
     }
 
     public int getImageId() {
@@ -91,5 +91,29 @@ public class Goods {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public int getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(int ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public List<String> getImages() {
+        return images;
+    }
+
+    public void setImages(List<String> images) {
+        this.images = images;
     }
 }
