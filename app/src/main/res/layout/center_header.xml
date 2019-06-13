@@ -52,6 +52,7 @@
 
         <!--已发布-->
         <LinearLayout
+            android:id="@+id/fragment_center_releasedLayout"
             android:layout_width="0.0dip"
             android:layout_height="wrap_content"
             android:layout_weight="1.0"

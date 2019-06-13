@@ -1,16 +1,23 @@
 package com.campus.oldone.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.VisibilityAwareImageButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import com.campus.oldone.R;
+import com.campus.oldone.activity.ReleasedGoodsActivity;
 import com.campus.oldone.constant.Constant;
 import com.campus.oldone.model.Goods;
 import com.campus.oldone.utils.HttpUtil;
@@ -37,13 +44,7 @@ public class CenterFragment extends Fragment {
     private TextView saleNum;
     private TextView unsaleNum;
 
-    private void initView(View view){
-        navigationView  = view.findViewById(R.id.center_nav_view);
-        View headView = navigationView.getHeaderView(0);
-        releaseNum = headView.findViewById(R.id.fragment_center_releaseNum);
-        saleNum = headView.findViewById(R.id.fragment_center_saleNum);
-        unsaleNum = headView.findViewById(R.id.fragment_center_unsaleNum);
-    }
+    private Toolbar toolbar;
 
     private void initData(){
         String id = String.valueOf(PreferencesUtil.getUserInfo(getContext()).getId());
@@ -58,19 +59,16 @@ public class CenterFragment extends Fragment {
             public void onResponse(Call call, Response response) throws IOException {
                 if(response.header("data_result",Constant.STATUS_FAILED).equals(Constant.STATUS_OK)){
                     String json = response.body().string();
-                    Log.d(TAG, "onResponse: "+json);
                     JsonArray jsonArray = new JsonParser().parse(json).getAsJsonArray();
                     final List<Integer> data = Tools.gson.fromJson(jsonArray,new TypeToken<List<Integer>>(){}.getType());
-                    Log.d(TAG, "onResponse: ff"+data.size());
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            releaseNum.setText(data.get(0));
-                            saleNum.setText(data.get(1));
-                            unsaleNum.setText(data.get(2));
+                            releaseNum.setText(String.valueOf(data.get(0)));
+                            saleNum.setText(String.valueOf(data.get(1)));
+                            unsaleNum.setText(String.valueOf(data.get(2)));
                         }
                     });
-                    Log.d(TAG, "onResponse: ");
                 } else {
                     Log.d(TAG, "false");
                 }
@@ -78,23 +76,40 @@ public class CenterFragment extends Fragment {
         });
     }
 
-    private void initListener(){
-
-    }
-
-
     public CenterFragment() {
         // Required empty public constructor
     }
 
+    private void initView(View view){
+        navigationView = view.findViewById(R.id.center_nav_view);
+        navigationView.setCheckedItem(R.id.center_menu_name);
+        toolbar = view.findViewById(R.id.center_toolbar);
+        View headerView = navigationView.getHeaderView(0);//获得个人中心头部view
+        releaseNum = headerView.findViewById(R.id.fragment_center_releaseNum);
+        saleNum = headerView.findViewById(R.id.fragment_center_saleNum);
+        unsaleNum = headerView.findViewById(R.id.fragment_center_unsaleNum);
+    }
 
+    private void initListener(View view){
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                Intent releasedIntent = new Intent(getActivity(),ReleasedGoodsActivity.class);
+                startActivity(releasedIntent);
+                return true;
+            }
+        });
+
+
+    }
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_center, container, false);
+        View view =  inflater.inflate(R.layout.fragment_center, container, false);
         initView(view);
         initData();
-        initListener();
+        initListener(view);
         return view;
     }
+
 }

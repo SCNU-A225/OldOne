@@ -2,6 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/center_menu_mine"
+            android:title="我的物品"
+            android:icon="@drawable/center_menu_mine"/>
+        <item
             android:id="@+id/center_menu_name"
             android:title="昵称"
             android:icon="@drawable/center_menu_name"/>

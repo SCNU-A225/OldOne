@@ -21,6 +21,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activity.SearchActivity"></activity>
+        <activity android:name=".activity.EditReleasedGoodsActivity"></activity>
+        <activity android:name=".activity.UnsaleGoodsActivity" />
+        <activity android:name=".activity.SoldGoodsActivity" />
 
         <service
             android:name=".service.WelcomeService"
@@ -37,6 +40,7 @@
                 android:resource="@xml/file_paths_public" />
         </provider>
 
+        <activity android:name=".activity.ReleasedGoodsActivity" />
         <activity android:name=".activity.GetPermissionActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
