@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.campus.oldone.R;
 
 import java.util.LinkedList;
@@ -17,13 +18,22 @@ import java.util.List;
 public class ReleaseImageAdapter extends BaseAdapter {
 
     private Context context;
+    private int type;
     List<Uri> photos = new LinkedList<>();
+    List<String> photosUrl = new LinkedList<>();
 
     public ReleaseImageAdapter(List<Uri> list, Context context){
         this.context = context;
         for(int i=0; i<list.size(); i++){
             photos.add(list.get(i));
         }
+        this.type = 0;
+    }
+
+    public ReleaseImageAdapter(List<String> list, Context context, int type){
+        this.context = context;
+        this.photosUrl = list;
+        this.type = type;
     }
     @Override
     public int getCount() {
@@ -54,9 +64,13 @@ public class ReleaseImageAdapter extends BaseAdapter {
         }else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-
-        Uri imageUri = photos.get(position);
-        viewHolder.image.setImageURI(imageUri);
+        if(type==0) {
+            Uri imageUri = photos.get(position);
+            viewHolder.image.setImageURI(imageUri);
+        }else {
+            String imageUrl = photosUrl.get(position);
+            Glide.with(context).load(imageUrl).into(viewHolder.image);
+        }
         return convertView;
     }
 
