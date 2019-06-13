@@ -1,5 +1,6 @@
 package com.campus.oldone.model;
 
+
 public class User {
 
     private int id;

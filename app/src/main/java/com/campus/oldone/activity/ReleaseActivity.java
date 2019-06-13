@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.Menu;
@@ -21,19 +22,41 @@ import android.widget.Toast;
 
 import com.campus.oldone.R;
 import com.campus.oldone.adapter.ReleaseImageAdapter;
+import com.campus.oldone.constant.Constant;
+import com.campus.oldone.model.User;
+import com.campus.oldone.utils.HttpUtil;
+import com.campus.oldone.utils.ImageUtil;
+import com.campus.oldone.utils.PreferencesUtil;
+import com.campus.oldone.utils.Tools;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.ExecutionException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 
 public class ReleaseActivity extends BaseActivity {
     private static final int  REQUEST_CODE_CHOOSE = 23;
+    private static final String TAG = "mydebug:RA";
 
     private GridView gridView;
     private List<Uri> selectedPhotos;
@@ -90,6 +113,83 @@ public class ReleaseActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        btn_release.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                                User user = PreferencesUtil.getUserInfo(ReleaseActivity.this);
+                                Map<String,String> parms = new HashMap<>();
+                                parms.put("title",et_title.getText().toString());
+                                parms.put("content",et_content.getText().toString());
+                                parms.put("location",user.getCampus());
+                                parms.put("price",et_price.getText().toString());
+                                parms.put("email",et_email.getText().toString());
+                                parms.put("phone",et_phone.getText().toString());
+                                parms.put("type",types.getSelectedItem().toString());
+                                parms.put("sold","0");
+                                parms.put("ownerId", String.valueOf(user.getId()));
+
+                                MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+                                for(Map.Entry<String,String> entry : parms.entrySet()){
+                                    builder.addFormDataPart(entry.getKey(),entry.getValue());
+                                }
+                                if(selectedPhotos != null){
+                                    for(Uri uri:selectedPhotos){
+                                        File img = new File(ImageUtil.getRealFilePath(ReleaseActivity.this,uri));
+                                        String imgName = System.currentTimeMillis()+"_"+ Tools.random.nextInt(5000) + ImageUtil.getSuffix(ImageUtil.getMimeType(img));
+                                        builder.addFormDataPart("img",imgName,RequestBody.create(MediaType.parse("image/*"),img));
+                                    }
+                                }
+
+                                String url = Constant.SERVER_URL+"release";
+                                HttpUtil.sendOkHttpPostRequest(url, builder.build(), new Callback() {
+                                    @Override
+                                    public void onFailure(Call call, IOException e) {
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Toast.makeText(ReleaseActivity.this,"网络错误！",Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    }
+
+                                    @Override
+                                    public void onResponse(Call call, Response response) throws IOException {
+                                        if(response.header("release_result",Constant.STATUS_FAILED).equals(Constant.STATUS_OK)){
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    Toast.makeText(ReleaseActivity.this,"发布成功！",Toast.LENGTH_SHORT).show();
+                                                    TimerTask timerTask = new TimerTask() {
+                                                        @Override
+                                                        public void run() {
+                                                            Intent intent = new Intent(ReleaseActivity.this,MainActivity.class);
+                                                            startActivity(intent);
+                                                        }
+                                                    };
+                                                    Timer timer = new Timer();
+                                                    timer.schedule(timerTask,3000);
+
+                                                }
+                                            });
+                                        } else {
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    Toast.makeText(ReleaseActivity.this,"发布失败！",Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                        }
+                                    }
+                                });
+
+                        }
+                    }).start();
             }
         });
     }

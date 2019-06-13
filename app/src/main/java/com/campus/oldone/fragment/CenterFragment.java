@@ -48,7 +48,10 @@ public class CenterFragment extends Fragment {
         //获得个人中心头部view
         View headerView = navigationView.getHeaderView(0);
         //TODO 刷新个人中心头部统计数据
+        //已发布
         TextView releasedNum = (TextView)headerView.findViewById(R.id.fragment_center_releaseNum);
+        TextView saleNum = (TextView)headerView.findViewById(R.id.fragment_center_saleNum);
+        TextView unsaleNum = (TextView)headerView.findViewById(R.id.fragment_center_unsaleNum);
         releasedNum.setText("3");
     }
     @Override

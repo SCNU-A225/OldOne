@@ -13,11 +13,20 @@ import android.widget.Toast;
 
 import com.campus.oldone.R;
 import com.campus.oldone.constant.Constant;
+import com.campus.oldone.model.User;
 import com.campus.oldone.utils.HttpUtil;
+import com.campus.oldone.utils.PreferencesUtil;
 import com.campus.oldone.utils.Tools;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class RegisterActivity extends BaseActivity {
     private static final String TAG = "mydebug:RA";
@@ -77,8 +86,49 @@ public class RegisterActivity extends BaseActivity {
 
                 if(password1.equals(password2)){
                     String password = Tools.md5(password1);
-                    String url = String.format("%sregister?account=%s&name=%s&password=%s&campus=%s",Constant.SERVER_URL,account,account,password,campus);
-                    new RegisterTask().execute(url);
+                    RequestBody requestBody = new FormBody.Builder()
+                            .add("account",account)
+                            .add("name",account)
+                            .add("password",password)
+                            .add("campus",campus)
+                            .build();
+                    String url = Constant.SERVER_URL+"register";
+                    HttpUtil.sendOkHttpPostRequest(url, requestBody, new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(RegisterActivity.this,"网络错误",Toast.LENGTH_SHORT);
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                            if (response.header("register_result",Constant.STATUS_FAILED).equals(Constant.STATUS_OK)){
+                                String json = response.body().string();
+                                User user = Tools.gson.fromJson(json, User.class);
+                                PreferencesUtil.saveUserInfo(RegisterActivity.this,user);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Intent intent = new Intent(RegisterActivity.this,MainActivity.class);
+                                        Toast.makeText(RegisterActivity.this,"注册成功！",Toast.LENGTH_SHORT).show();
+                                        startActivity(intent);
+                                    }
+                                });
+
+                            } else {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(RegisterActivity.this,"注册失败！",Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        }
+                    });
                 } else {
                     Toast.makeText(RegisterActivity.this,"密码不一致！",Toast.LENGTH_SHORT).show();
                 }
@@ -92,32 +142,5 @@ public class RegisterActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
-    }
-
-    class RegisterTask extends AsyncTask<String,Integer,Boolean>{
-
-        @Override
-        protected Boolean doInBackground(String... strings) {
-            try {
-                URL url = new URL(strings[0]);
-                String result = HttpUtil.sendGet(url);
-                return (result!=null && result.equals(Constant.STATUS_OK));
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-            return false;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean result) {
-            super.onPostExecute(result);
-            if(result){
-                Toast.makeText(RegisterActivity.this,"注册成功！",Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(RegisterActivity.this,MainActivity.class);
-                startActivity(intent);
-            } else {
-                Toast.makeText(RegisterActivity.this,"注册失败！",Toast.LENGTH_SHORT).show();
-            }
-        }
     }
 }

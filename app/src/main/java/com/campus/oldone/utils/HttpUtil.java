@@ -21,7 +21,7 @@ public class HttpUtil {
 
     public static void sendOkHttpPostRequest(String address, RequestBody requestBody, okhttp3.Callback callback){
         OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder().url(address).post(requestBody).build();
+        Request request = new Request.Builder().addHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8").url(address).post(requestBody).build();
         client.newCall(request).enqueue(callback);
     }
 

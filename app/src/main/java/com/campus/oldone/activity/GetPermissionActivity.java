@@ -84,7 +84,7 @@ public class GetPermissionActivity extends AppCompatActivity {
     }
 
     private void openApp(){
-        Intent intent = new Intent(GetPermissionActivity.this,MainActivity.class);
+        Intent intent = new Intent(GetPermissionActivity.this,LoginActivity.class);
         startActivity(intent);
     }
 

@@ -14,6 +14,7 @@ import android.widget.Button;
 
 import com.bumptech.glide.Glide;
 import com.campus.oldone.R;
+import com.campus.oldone.activity.LoginActivity;
 import com.campus.oldone.activity.ReleaseActivity;
 import com.campus.oldone.adapter.HomeTabAdapter;
 import com.campus.oldone.constant.Constant;
@@ -77,54 +78,9 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
 //                Goods goods = new Goods(R.drawable.img_test,"测试","内容测试",99.0,"位置","18613189882","1197749258@qq.com");
-//                Gson gson = new Gson();
-//                Log.d(TAG, gson.toJson(goods));
 
-                Intent intent = new Intent(getContext(), ReleaseActivity.class);
-                startActivity(intent);
-
-
-//                File file = new File();
-//                    new Thread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            try {
-//                                File file =Glide.with(getContext())
-//                                        .asFile()
-//                                        .load("http://n.sinaimg.cn/news/1_img/upload/cf3881ab/66/w1000h666/20190604/5ad7-hxyuaph3003402.jpg")
-//                                        .submit()
-//                                        .get();
-//                                String fileName = System.currentTimeMillis()+"_"+Tools.random.nextInt(5000) + ImageUtil.getSuffix(ImageUtil.getMimeType(file));
-//                                RequestBody requestBody = new MultipartBody.Builder()
-//                                        .setType(MultipartBody.FORM)
-//                                        .addFormDataPart("title","吃吃吃")
-//                                        .addFormDataPart("content","测试内容")
-//                                        .addFormDataPart("campus","南海校区")
-//                                        .addFormDataPart("price","100")
-//                                        .addFormDataPart("img",fileName, RequestBody.create(MediaType.parse("image/*"),file))
-//                                        .build();
-//                                String url = Constant.SERVER_URL+"release";
-//                                HttpUtil.sendOkHttpPostRequest(url, requestBody, new Callback() {
-//                                    @Override
-//                                    public void onFailure(Call call, IOException e) {
-//                                        Log.d(TAG, "onFailure: "+e.getMessage());
-//                                    }
-//
-//                                    @Override
-//                                    public void onResponse(Call call, Response response) throws IOException {
-//                                        Log.d(TAG, "onResponse: 成功");
-//                                    }
-//                                });
-//                            } catch (ExecutionException e) {
-//                                e.printStackTrace();
-//                            } catch (InterruptedException e) {
-//                                e.printStackTrace();
-//                            }
-//
-//                        }
-//                    }).start();
-
-
+        Intent intent = new Intent(getContext(), ReleaseActivity.class);
+        startActivity(intent);
             }
         });
     }
