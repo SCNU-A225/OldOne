@@ -33,7 +33,7 @@ public class GoodsListFragment extends Fragment {
 
     private void initDataList(){
         goodsList.clear();
-        goodsList.add(new Goods(R.drawable.img_test,"测试","内容测试",99.0));
+        goodsList.add(new Goods(R.drawable.img_test,"测试","内容测试",99.0,"位置","18613189882","1197749258@qq.com"));
     }
 
     private void initAdapter(){

@@ -4,10 +4,11 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="bottom_nav_normal_color">#8a8a8a</color>
-    <color name="bottom_nav_selected_color">#d81e06</color>
+    <color name="bottom_nav_selected_color">#D81E06</color>
     <color name="black">#000000</color>
     <color name="red">#FF0000</color>
     <color name="login_activity_text">#96ffffff</color>
     <color name="white">#ffffff</color>
     <color name="center_primary">#DEDEDE</color>
+    <color name="price_color">#EE4000</color>
 </resources>

@@ -25,29 +25,31 @@
             app:iconSelected="@drawable/nav_home_selected"
             app:textColorNormal="@color/bottom_nav_normal_color"
             app:textColorSelected="@color/bottom_nav_selected_color"
-            app:iconHeight="40dp"
-            app:iconWidth="40dp"
-            app:itemTextSize="15sp"
+            app:iconHeight="30dp"
+            app:iconWidth="30dp"
+            app:itemTextSize="12sp"
             app:itemMarginTop="1dp"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="match_parent">
         </com.chaychan.library.BottomBarItem>
 
-        <com.chaychan.library.BottomBarItem
-            app:itemText="消息"
-            app:iconNormal="@drawable/nav_message_normal"
-            app:iconSelected="@drawable/nav_message_selected"
-            app:textColorNormal="@color/bottom_nav_normal_color"
-            app:textColorSelected="@color/bottom_nav_selected_color"
-            app:iconHeight="40dp"
-            app:iconWidth="40dp"
-            app:itemTextSize="15sp"
-            app:itemMarginTop="1dp"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent">
-        </com.chaychan.library.BottomBarItem>
+        <!--<com.chaychan.library.BottomBarItem-->
+            <!--app:itemText="发布"-->
+            <!--app:iconNormal="@drawable/main_release"-->
+            <!--app:iconSelected="@drawable/main_release_selected"-->
+            <!--app:textColorNormal="@color/bottom_nav_normal_color"-->
+            <!--app:textColorSelected="@color/bottom_nav_selected_color"-->
+            <!--app:iconHeight="30dp"-->
+            <!--app:iconWidth="30dp"-->
+            <!--app:itemTextSize="12sp"-->
+            <!--app:itemMarginTop="1dp"-->
+            <!--android:id="@+id/nav_home_release"-->
+            <!--android:layout_weight="1"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent">-->
+        <!--</com.chaychan.library.BottomBarItem>-->
+
 
         <com.chaychan.library.BottomBarItem
             app:itemText="个人中心"
@@ -55,9 +57,9 @@
             app:iconSelected="@drawable/nav_center_selected"
             app:textColorNormal="@color/bottom_nav_normal_color"
             app:textColorSelected="@color/bottom_nav_selected_color"
-            app:iconHeight="40dp"
-            app:iconWidth="40dp"
-            app:itemTextSize="15sp"
+            app:iconHeight="30dp"
+            app:iconWidth="30dp"
+            app:itemTextSize="12sp"
             app:itemMarginTop="1dp"
             android:layout_weight="1"
             android:layout_width="0dp"

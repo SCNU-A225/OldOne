@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.youth.banner.Banner
+        android:id="@+id/showgoods_banner"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"/>
+
+    <TextView
+        android:id="@+id/showgoods_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        android:text="价格"/>
+    <TextView
+        android:id="@+id/showgoods_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/white"
+        android:text="标题"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <TextView
+            android:id="@+id/showgoods_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:text="校区"/>
+        <Button
+            android:id="@+id/showgoods_contact"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:text="短信联系"/>
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
+    <TextView
+        android:id="@+id/showgoods_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="物品详情"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="联系主人"
+            android:layout_alignParentLeft="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/showgoods_share"
+            android:text="分享"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/center_menu_phone"/>
+        <TextView
+            android:id="@+id/showgoods_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="12345678900"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/center_menu_email"/>
+        <TextView
+            android:id="@+id/showgoods_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="123456@Gmail.com"/>
+    </LinearLayout>
+</LinearLayout>

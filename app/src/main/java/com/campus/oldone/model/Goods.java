@@ -1,18 +1,32 @@
 package com.campus.oldone.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Goods {
     private int imageId;
     private String title;
     private String content;
     private Double price;
-    private Boolean isSale;
+    private String location;
+    private String phone;
+    private String email;
+    private int sold;
+    private int ownerId;
+    private List<String> images;
 
-    public Goods(int imageId, String title, String content, Double price) {
+    public Goods(int imageId, String title, String content, Double price, String location,String phone,String email) {
         this.imageId = imageId;
         this.title = title;
         this.content = content;
         this.price = price;
-        this.isSale = false;
+        this.location = location;
+        this.phone = phone;
+        this.email = email;
+        this.sold = 0;
+        images = new ArrayList<>();
+        images.add("FFFE");
+        images.add("WWWWW");
     }
 
     public int getImageId() {
@@ -45,5 +59,37 @@ public class Goods {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public int getSold() {
+        return sold;
+    }
+
+    public void setSold(int sold) {
+        this.sold = sold;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 }

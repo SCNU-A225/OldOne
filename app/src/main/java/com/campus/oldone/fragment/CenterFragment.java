@@ -1,9 +1,11 @@
 package com.campus.oldone.fragment;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.nfc.Tag;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
@@ -37,10 +39,11 @@ public class CenterFragment extends Fragment {
         navigationView.setCheckedItem(R.id.center_nav_view);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                menuItem.setChecked(true);
                 Intent intent = new Intent(getActivity(), ChangeActivity.class);
-                int itemId = menuItem.getItemId();
-                intent.putExtra("menuItemID",itemId);
+                intent.putExtra("menuItemID",getString(menuItem.getItemId()));
+                Log.d("ChangeActivity2", getString(menuItem.getItemId()));
                 startActivity(intent);
                 return true;
             }
@@ -56,7 +59,6 @@ public class CenterFragment extends Fragment {
         initListener(view);
         return view;
     }
-
 
 
 }
