@@ -1,44 +1,16 @@
 package com.campus.oldone.activity;
 
 import android.app.AlertDialog;
-import android.content.ClipData;
 import android.content.DialogInterface;
-import android.content.res.Resources;
-import android.graphics.Color;
-import android.graphics.drawable.Icon;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.nfc.Tag;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.v7.widget.AlertDialogLayout;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.Switch;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.campus.oldone.R;
-import com.campus.oldone.constant.Constant;
 import com.campus.oldone.model.User;
-import com.campus.oldone.utils.HttpUtil;
 import com.campus.oldone.utils.PreferencesUtil;
-import com.campus.oldone.utils.Tools;
 
-import java.net.MalformedURLException;
-import java.util.Calendar;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 

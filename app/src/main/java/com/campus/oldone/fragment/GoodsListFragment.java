@@ -55,6 +55,23 @@ public class GoodsListFragment extends Fragment {
     private boolean mIsVisible= false;		//不可见
     private boolean mIsFirstLoad = true;	//第一次加载
 
+    public List<Goods> getGoodsList() {
+        return goodsList;
+    }
+
+    public void setGoodsList(List<Goods> goodsList) {
+        this.goodsList = goodsList;
+    }
+
+    public void refreshData(){
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                goodsAdapter.refresh(goodsList);
+                Log.d(TAG, "run: ");
+            }
+        });
+    }
 
     public GoodsListFragment() {
         // Required empty public constructor

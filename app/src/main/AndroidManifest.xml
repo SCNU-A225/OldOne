@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:allowBackup="true"
@@ -19,26 +20,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.ShareGoodsActivity"></activity>
-        <activity android:name=".activity.GetPermissionActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".activity.ChangeActivity">
-        </activity>
-        <activity android:name=".activity.RegisterActivity"
-            android:theme="@style/AppTheme.Main">
-        </activity>
-        <activity android:name=".activity.LoginActivity"
-            android:theme="@style/AppTheme.Main">
-
-        </activity>
-        <activity android:name=".activity.MainActivity">
-
-        </activity>
+        <activity android:name=".activity.SearchActivity"></activity>
+        <activity android:name=".activity.EditReleasedGoodsActivity"></activity>
+        <activity android:name=".activity.UnsaleGoodsActivity" />
+        <activity android:name=".activity.SoldGoodsActivity" />
         <activity android:name=".activity.ShowGoodsActivity" />
+        <activity android:name=".activity.ShareGoodsActivity" />
+        <activity android:name=".activity.ReleaseActivity" />
+        <activity android:name=".activity.CenterActivity" />
+        <activity android:name=".activity.ChangeActivity" />
+        <service
+            android:name=".service.WelcomeService"
+            android:enabled="true"
+            android:exported="false"></service>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -50,8 +44,23 @@
                 android:resource="@xml/file_paths_public" />
         </provider>
 
-        <activity android:name=".activity.ReleaseActivity" />
-        <activity android:name=".activity.CenterActivity" />
+        <activity android:name=".activity.ReleasedGoodsActivity" />
+        <activity android:name=".activity.GetPermissionActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".activity.RegisterActivity"
+            android:theme="@style/AppTheme.Main" />
+        <activity
+            android:name=".activity.LoginActivity"
+            android:theme="@style/AppTheme.Main" />
+        <activity
+            android:name=".activity.MainActivity"
+            android:launchMode="singleTask" />
     </application>
 
 </manifest>
