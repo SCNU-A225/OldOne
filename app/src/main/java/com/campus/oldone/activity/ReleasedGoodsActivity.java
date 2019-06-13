@@ -46,8 +46,12 @@ public class ReleasedGoodsActivity extends BaseActivity {
         goodsList = new ArrayList<>();
         Goods goods3 = new Goods(R.drawable.img_test,"测试","内容测试",99.0,"位置","18613189882","1197749258@qq.com");
         goods3.setSold(1);
-        goodsList.add(new Goods(R.drawable.img_test,"测试","内容测试",99.0,"位置","18613189882","1197749258@qq.com"));
-        goodsList.add(new Goods(R.drawable.img_test,"测试","内容测试",99.0,"位置","18613189882","1197749258@qq.com"));
+        Goods goods2 = new Goods(R.drawable.img_test,"测试","内容测试",99.0,"位置","18613189882","1197749258@qq.com");
+        goods2.setSold(0);
+        Goods goods1 = new Goods(R.drawable.img_test,"测试","内容测试",99.0,"位置","18613189882","1197749258@qq.com");
+        goods1.setSold(0);
+        goodsList.add(goods1);
+        goodsList.add(goods2);
         goodsList.add(goods3);
     }
 

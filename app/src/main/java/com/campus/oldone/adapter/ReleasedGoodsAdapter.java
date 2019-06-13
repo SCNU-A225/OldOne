@@ -19,17 +19,36 @@ public class ReleasedGoodsAdapter extends RecyclerView.Adapter<ReleasedGoodsAdap
         private List<Goods> goodsList;
         private Context context;
 
-        public ReleasedGoodsAdapter(List<Goods> goodsList) {
-            this.goodsList = goodsList;
-        }
 
-        @NonNull
+    static class ViewHolder extends RecyclerView.ViewHolder{
+        ImageView goodsImage;
+        TextView goodsTitle;
+        TextView goodsPrice;
+        TextView goodsLocation;
+        Button button;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            goodsImage = (ImageView)itemView.findViewById(R.id.released_goods_img);
+            goodsTitle = (TextView)itemView.findViewById(R.id.released_goods_title);
+            goodsPrice = (TextView)itemView.findViewById(R.id.released_goods_price);
+            goodsLocation = (TextView)itemView.findViewById(R.id.released_goods_location);
+            button = (Button)itemView.findViewById(R.id.released_goods_button);
+        }
+    }
+
+    public ReleasedGoodsAdapter(List<Goods> goodsList) {
+        this.goodsList = goodsList;
+    }
+
+
+    @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
             if(context == null){
                 context = viewGroup.getContext();
             }
-            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_goods,viewGroup,false);
+            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.released_goods_item,viewGroup,false);
             ViewHolder holder = new ViewHolder(view);
 
             return holder;
@@ -44,8 +63,8 @@ public class ReleasedGoodsAdapter extends RecyclerView.Adapter<ReleasedGoodsAdap
             viewHolder.goodsPrice.setText(goods.getPrice()+"");
             if(goods.getSold()==0){
                 viewHolder.button.setText("未出手");
-                viewHolder.button.setBackgroundColor(0x3F51B5);
-                viewHolder.button.setTextColor(0xFFFAFA);
+//                viewHolder.button.setBackgroundColor(0x3F51B5);
+//                viewHolder.button.setTextColor(0xFFFAFA);
                 //TODO 点击事件转到物品编辑页面
             }else {
                 viewHolder.button.setText("已出手");
@@ -57,21 +76,6 @@ public class ReleasedGoodsAdapter extends RecyclerView.Adapter<ReleasedGoodsAdap
             return goodsList.size();
         }
 
-        static class ViewHolder extends RecyclerView.ViewHolder{
-            ImageView goodsImage;
-            TextView goodsTitle;
-            TextView goodsPrice;
-            TextView goodsLocation;
-            Button button;
 
-            public ViewHolder(@NonNull View itemView) {
-                super(itemView);
-                goodsImage = itemView.findViewById(R.id.released_goods_img);
-                goodsTitle = itemView.findViewById(R.id.released_goods_title);
-                goodsPrice = itemView.findViewById(R.id.released_goods_price);
-                goodsLocation = itemView.findViewById(R.id.released_goods_location);
-                button = itemView.findViewById(R.id.released_goods_button);
-            }
-        }
 
     }
