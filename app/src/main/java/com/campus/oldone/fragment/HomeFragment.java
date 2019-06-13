@@ -7,35 +7,25 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.SearchView;
 
-import com.bumptech.glide.Glide;
 import com.campus.oldone.R;
-import com.campus.oldone.activity.LoginActivity;
 import com.campus.oldone.activity.ReleaseActivity;
+import com.campus.oldone.activity.SearchActivity;
 import com.campus.oldone.adapter.HomeTabAdapter;
 import com.campus.oldone.constant.Constant;
 import com.campus.oldone.model.Goods;
-import com.campus.oldone.utils.HttpUtil;
-import com.campus.oldone.utils.ImageUtil;
-import com.campus.oldone.utils.Tools;
-import com.google.gson.Gson;
+import com.campus.oldone.service.WelcomeService;
+import com.campus.oldone.utils.PreferencesUtil;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 /**
  * 主页Fragment
@@ -44,6 +34,8 @@ public class HomeFragment extends Fragment {
     private static final String TAG = "mydebug:HF";
 
     private ViewPager viewPager;
+    private SearchView searchView;
+    private HomeTabAdapter adapter;
     private TabLayout tabLayout;
     private Button releaseButton;
     private List<Fragment> fragmentList = new ArrayList<>();
@@ -53,7 +45,8 @@ public class HomeFragment extends Fragment {
     }
 
     private void initTab(){
-        viewPager.setAdapter(new HomeTabAdapter(getChildFragmentManager(),Constant.ALL_TYPE_NAME,fragmentList));
+        adapter = new HomeTabAdapter(getChildFragmentManager(),Constant.ALL_TYPE_NAME,fragmentList);
+        viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
     }
 
@@ -61,6 +54,7 @@ public class HomeFragment extends Fragment {
         viewPager = view.findViewById(R.id.home_view_pager);
         tabLayout = view.findViewById(R.id.home_tab);
         releaseButton = view.findViewById(R.id.home_release);
+        searchView = view.findViewById(R.id.home_search);
     }
 
     private void initFragmentList(){
@@ -77,10 +71,33 @@ public class HomeFragment extends Fragment {
         releaseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Goods goods = new Goods(R.drawable.img_test,"测试","内容测试",99.0,"位置","18613189882","1197749258@qq.com");
-
-        Intent intent = new Intent(getContext(), ReleaseActivity.class);
-        startActivity(intent);
+                Intent intent = new Intent(getContext(), ReleaseActivity.class);
+                startActivity(intent);
+            }
+        });
+        searchView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
+            @Override
+            public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+                GoodsListFragment goodsListFragment = (GoodsListFragment) fragmentList.get(0);
+                Intent intent = new Intent(getContext(), SearchActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("all_goods",(Serializable) goodsListFragment.getGoodsList());
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    GoodsListFragment goodsListFragment = (GoodsListFragment) fragmentList.get(0);
+                    Intent intent = new Intent(getContext(), SearchActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("all_goods",(Serializable) goodsListFragment.getGoodsList());
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                    searchView.onActionViewCollapsed();
+                }
             }
         });
     }
@@ -94,7 +111,14 @@ public class HomeFragment extends Fragment {
         initFragmentList();
         initTab();
         initListener();
+        initRefreshService();
         return view;
+    }
+
+    private void initRefreshService() {
+        Intent intent = new Intent(getActivity(), WelcomeService.class);
+        intent.putExtra("user_name", PreferencesUtil.getUserInfo(getContext()).getName());
+        getActivity().startService(intent);
     }
 
 }

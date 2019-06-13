@@ -27,7 +27,8 @@ public class GetPermissionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         permissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
         Manifest.permission.WRITE_EXTERNAL_STORAGE,
-        Manifest.permission.READ_CONTACTS};
+        Manifest.permission.READ_CONTACTS,
+        Manifest.permission.FOREGROUND_SERVICE};
         mPermissionList = new ArrayList<>();
 
         mPermissionList.clear();//清空已经允许的没有通过的权限
@@ -45,11 +46,6 @@ public class GetPermissionActivity extends AppCompatActivity {
             //权限已经都通过了，可以将程序继续打开了
             openApp();
         }
-//        if(ContextCompat.checkSelfPermission(GetPermissionActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
-//            ActivityCompat.requestPermissions(GetPermissionActivity.this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},1);
-//        }else {
-//            openApp();
-//        }
     }
 
     @Override
@@ -70,17 +66,6 @@ public class GetPermissionActivity extends AppCompatActivity {
             //权限已经都通过了，可以将程序继续打开了
             openApp();
         }
-//        switch (requestCode){
-//            case 1:
-//                if (grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-//                    openApp();
-//                }else {
-//                    Toast.makeText(GetPermissionActivity.this, "请授权读取内存权限", Toast.LENGTH_SHORT).show();
-//                    finish();
-//                }
-//                break;
-//            default:
-//        }
     }
 
     private void openApp(){

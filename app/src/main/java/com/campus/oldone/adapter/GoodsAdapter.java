@@ -67,7 +67,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder> 
         Glide.with(context).load(goods.getImages().get(0)).centerCrop().into(viewHolder.goodsImage);
         viewHolder.goodsTitle.setText(goods.getTitle());
         viewHolder.goodsLocation.setText(goods.getLocation());
-        viewHolder.goodsPrice.setText(goods.getPrice()+"");
+        viewHolder.goodsPrice.setText(goods.getPrice()+"元");
     }
 
     @Override
