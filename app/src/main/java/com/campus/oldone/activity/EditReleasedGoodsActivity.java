@@ -10,6 +10,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,17 +20,30 @@ import android.widget.Toast;
 
 import com.campus.oldone.R;
 import com.campus.oldone.adapter.ReleaseImageAdapter;
+import com.campus.oldone.constant.Constant;
 import com.campus.oldone.model.Goods;
+import com.campus.oldone.utils.HttpUtil;
+import com.google.gson.Gson;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class EditReleasedGoodsActivity extends BaseActivity {
+    private static final String TAG = "mydebug:ERGA";
 
     private Goods goods;
     private static final int  REQUEST_CODE_CHOOSE = 23;
@@ -109,7 +123,51 @@ public class EditReleasedGoodsActivity extends BaseActivity {
         btn_release.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO 确认修改操作
+                goods.setTitle(et_title.getText().toString());
+                goods.setContent(et_content.getText().toString());
+                goods.setEmail(et_email.getText().toString());
+                goods.setPhone(et_phone.getText().toString());
+                goods.setType(types.getSelectedItem().toString());
+                goods.setPrice(Double.parseDouble(et_price.getText().toString()));
+
+                String url = Constant.SERVER_URL+"data";
+                RequestBody requestBody = new FormBody.Builder()
+                        .add("method","updateGoods")
+                        .add("goods_data",new Gson().toJson(goods))
+                        .build();
+                HttpUtil.sendOkHttpPostRequest(url, requestBody, new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        Log.d(TAG, "onFailure: ");
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        if(response.header("data_result",Constant.STATUS_FAILED).equals(Constant.STATUS_OK)){
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(EditReleasedGoodsActivity.this,"修改成功！",Toast.LENGTH_SHORT).show();
+                                    TimerTask timerTask = new TimerTask() {
+                                        @Override
+                                        public void run() {
+                                            finish();
+                                        }
+                                    };
+                                    Timer timer = new Timer();
+                                    timer.schedule(timerTask,2000);
+                                }
+                            });
+                        } else {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(EditReleasedGoodsActivity.this,"修改失败！",Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    }
+                });
             }
         });
     }

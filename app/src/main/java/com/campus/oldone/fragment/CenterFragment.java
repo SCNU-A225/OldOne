@@ -15,6 +15,7 @@ import android.widget.Toolbar;
 
 import com.campus.oldone.R;
 import com.campus.oldone.activity.ChangeActivity;
+import com.campus.oldone.activity.ReleasedGoodsActivity;
 import com.campus.oldone.constant.Constant;
 import com.campus.oldone.utils.HttpUtil;
 import com.campus.oldone.utils.PreferencesUtil;
@@ -90,10 +91,15 @@ public class CenterFragment extends Fragment {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                menuItem.setChecked(true);
-                Intent intent = new Intent(getActivity(), ChangeActivity.class);
-                intent.putExtra("menuItemID",menuItem.getItemId());
-                startActivity(intent);
+                if(menuItem.getItemId() == R.id.center_menu_mine){
+                    Intent intent = new Intent(getActivity(), ReleasedGoodsActivity.class);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(getActivity(), ChangeActivity.class);
+                    intent.putExtra("menuItemID",menuItem.getItemId());
+                    startActivity(intent);
+                }
+
                 return true;
             }
         });

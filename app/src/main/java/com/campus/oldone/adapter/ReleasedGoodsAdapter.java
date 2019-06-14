@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.campus.oldone.R;
 import com.campus.oldone.activity.SoldGoodsActivity;
 import com.campus.oldone.activity.UnsaleGoodsActivity;
@@ -44,6 +45,11 @@ public class ReleasedGoodsAdapter extends RecyclerView.Adapter<ReleasedGoodsAdap
         this.goodsList = goodsList;
     }
 
+    public void refresh(List<Goods> goodsList){
+        this.goodsList = goodsList;
+        notifyDataSetChanged();
+    }
+
 
     @NonNull
         @Override
@@ -60,7 +66,7 @@ public class ReleasedGoodsAdapter extends RecyclerView.Adapter<ReleasedGoodsAdap
         @Override
         public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
             Goods goods = goodsList.get(i);
-            viewHolder.goodsImage.setImageResource(goods.getImageId());
+            Glide.with(context).load(goods.getImages().get(0)).into(viewHolder.goodsImage);
             viewHolder.goodsTitle.setText(goods.getTitle());
             viewHolder.goodsLocation.setText(goods.getLocation());
             viewHolder.goodsPrice.setText(goods.getPrice()+"");

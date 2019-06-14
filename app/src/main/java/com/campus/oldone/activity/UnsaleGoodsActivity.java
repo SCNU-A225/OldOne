@@ -5,21 +5,37 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.allen.library.SuperTextView;
 import com.campus.oldone.R;
 import com.campus.oldone.adapter.GlideImageAdapter;
+import com.campus.oldone.constant.Constant;
 import com.campus.oldone.model.Goods;
+import com.campus.oldone.utils.HttpUtil;
+import com.campus.oldone.utils.PreferencesUtil;
+import com.google.gson.Gson;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class UnsaleGoodsActivity extends BaseActivity {
+    private static final String TAG = "mydebug:UGA";
 
     private Goods goods;
     private List<String> images = new ArrayList<>();
@@ -115,7 +131,45 @@ public class UnsaleGoodsActivity extends BaseActivity {
         confirmDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //TODO 将物品的sold状态设为已出手并关闭
+                goods.setSold(1);
+                String url = Constant.SERVER_URL+"data";
+                RequestBody requestBody = new FormBody.Builder()
+                        .add("method","updateGoods")
+                        .add("goods_data",new Gson().toJson(goods))
+                        .build();
+                HttpUtil.sendOkHttpPostRequest(url, requestBody, new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        Log.d(TAG, "onFailure: ");
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        if(response.header("data_result",Constant.STATUS_FAILED).equals(Constant.STATUS_OK)){
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(UnsaleGoodsActivity.this,"已出手！",Toast.LENGTH_SHORT).show();
+                                    TimerTask timerTask = new TimerTask() {
+                                        @Override
+                                        public void run() {
+                                            finish();
+                                        }
+                                    };
+                                    Timer timer = new Timer();
+                                    timer.schedule(timerTask,2000);
+                                }
+                            });
+                        } else {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(UnsaleGoodsActivity.this,"设置失败！",Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    }
+                });
             }
         });
         confirmDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -135,7 +189,44 @@ public class UnsaleGoodsActivity extends BaseActivity {
         deleteDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //TODO 将物品的sold状态设为已出手并关闭
+                String url = Constant.SERVER_URL+"data";
+                RequestBody requestBody = new FormBody.Builder()
+                        .add("method","deleteGoods")
+                        .add("goods_id", String.valueOf(goods.getId()))
+                        .build();
+                HttpUtil.sendOkHttpPostRequest(url, requestBody, new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        Log.d(TAG, "onFailure: ");
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        if(response.header("data_result",Constant.STATUS_FAILED).equals(Constant.STATUS_OK)){
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(UnsaleGoodsActivity.this,"删除成功！",Toast.LENGTH_SHORT).show();
+                                    TimerTask timerTask = new TimerTask() {
+                                        @Override
+                                        public void run() {
+                                            finish();
+                                        }
+                                    };
+                                    Timer timer = new Timer();
+                                    timer.schedule(timerTask,2000);
+                                }
+                            });
+                        } else {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(UnsaleGoodsActivity.this,"删除失败！",Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    }
+                });
             }
         });
         deleteDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
