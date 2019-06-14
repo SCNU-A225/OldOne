@@ -1,10 +1,7 @@
 package com.campus.oldone.fragment;
 
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,21 +12,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.campus.oldone.R;
-import com.campus.oldone.activity.LoginActivity;
 import com.campus.oldone.adapter.GoodsAdapter;
 import com.campus.oldone.constant.Constant;
 import com.campus.oldone.model.Goods;
 import com.campus.oldone.utils.HttpUtil;
 import com.campus.oldone.utils.Tools;
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
-
-import org.json.JSONArray;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,8 +29,6 @@ import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
@@ -55,6 +45,23 @@ public class GoodsListFragment extends Fragment {
     private boolean mIsVisible= false;		//不可见
     private boolean mIsFirstLoad = true;	//第一次加载
 
+    public List<Goods> getGoodsList() {
+        return goodsList;
+    }
+
+    public void setGoodsList(List<Goods> goodsList) {
+        this.goodsList = goodsList;
+    }
+
+    public void refreshData(){
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                goodsAdapter.refresh(goodsList);
+                Log.d(TAG, "run: ");
+            }
+        });
+    }
 
     public GoodsListFragment() {
         // Required empty public constructor
@@ -112,6 +119,7 @@ public class GoodsListFragment extends Fragment {
             }
         });
     }
+
 
 
     @Override

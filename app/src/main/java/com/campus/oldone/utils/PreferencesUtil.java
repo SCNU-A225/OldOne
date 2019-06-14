@@ -16,6 +16,7 @@ public class PreferencesUtil {
         editor.putInt("id",user.getId())
                 .putString("account",user.getAccount())
                 .putString("name",user.getName())
+                .putString("password",user.getPassword())
                 .putString("campus",user.getCampus())
                 .putString("phone",user.getPhone())
                 .putString("email",user.getEmail())
@@ -27,6 +28,8 @@ public class PreferencesUtil {
         User user = new User();
         user.setId(preferences.getInt("id",-1));
         user.setAccount(preferences.getString("account",null));
+        user.setPassword(preferences.getString("password",null));
+        user.setName(preferences.getString("name",null));
         user.setCampus(preferences.getString("campus",null));
         user.setPhone(preferences.getString("phone",null));
         user.setEmail(preferences.getString("email",null));

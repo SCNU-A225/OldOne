@@ -1,18 +1,13 @@
 package com.campus.oldone.activity;
 
-import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.View;
 
 import com.campus.oldone.R;
 import com.campus.oldone.adapter.MainTabAdapter;
 import com.campus.oldone.fragment.CenterFragment;
 import com.campus.oldone.fragment.HomeFragment;
-import com.campus.oldone.fragment.MessageFragment;
 import com.campus.oldone.receiver.NetworkChangeReceiver;
 import com.chaychan.library.BottomBarLayout;
 

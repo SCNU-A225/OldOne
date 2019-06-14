@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Goods implements Serializable {
-    private int imageId;
+    private int id;
     private String title;
     private String content;
     private Double price;
@@ -18,7 +18,6 @@ public class Goods implements Serializable {
     private List<String> images;
 
     public Goods(int imageId, String title, String content, Double price, String location,String phone,String email) {
-        this.imageId = imageId;
         this.title = title;
         this.content = content;
         this.price = price;
@@ -29,12 +28,12 @@ public class Goods implements Serializable {
         images = new ArrayList<>();
     }
 
-    public int getImageId() {
-        return imageId;
+    public int getId() {
+        return id;
     }
 
-    public void setImageId(int imageId) {
-        this.imageId = imageId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTitle() {
